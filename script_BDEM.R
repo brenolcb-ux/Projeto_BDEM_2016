@@ -52,6 +52,9 @@ str(dados_sim_1)
 
 # Ao terminar a Tarefa 3 commit com a mensagem "script BDEM - SIM - tarefas 1 a 3" e envie para o repositório Projeto_BDEM_2016
 
+dados_sim_2 <- dados_sim_1[!is.na(dados_sim_1$CODMUNRES) & substr(dados_sim_1$CODMUNRES, 1, 2) == "14", ]
+dim(dados_sim_2)
+table(substr(dados_sim_2$CODMUNRES, 1, 2))
 
 # Tarefa 4. Verificar em dados_sim_2 a frequência das categorias das seguintes variáveis:
 # TIPOBITO, SEXO, RACACOR, ESC2010, TPMORTEOCO, CAUSABAS
