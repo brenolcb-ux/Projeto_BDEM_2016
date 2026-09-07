@@ -248,6 +248,12 @@
 
 # Ao terminar a Tarefa 1 commit com a mensagem "script BDEM - ATLAS - tarefa 1" e envie para o repositório Projeto_BDEM_2016
 
+dados_sim <- read.csv("SIM_2016.csv", header = TRUE, sep = ";", stringsAsFactors = FALSE)
+
+dim(dados_sim)
+
+str(dados_sim)
+
 
 # Tarefa 2: Manipular o banco de dados e criar o banco de dados ATLAS_UF
 
@@ -300,6 +306,11 @@ UF_codigo = data.frame(
 
 
 # Ao terminar a Tarefa 2 commit com a mensagem "script BDEM - ATLAS - tarefas 1 a 2" e envie para o repositório Projeto_BDEM_2016
+
+dados_sim_1 <- dados_sim[, c(1, 3, 9, 10, 11, 14, 17, 35, 47)]
+names(dados_sim_1)
+dim(dados_sim_1)
+str(dados_sim_1)
 
 
 # Tarefa 3. Exportar o banco de dados com o nome ATLAS_UF.csv (Exemplo: ATLAS_RJ.csv)
