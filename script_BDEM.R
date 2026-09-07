@@ -66,6 +66,16 @@ table(substr(dados_sim_2$CODMUNRES, 1, 2))
 
 # Ao terminar a Tarefa 4 commit com a mensagem "script BDEM - SIM - tarefas 1 a 4" e envie para o repositório Projeto_BDEM_2016
 
+table(dados_sim_2$TIPOBITO, useNA = "ifany")
+table(dados_sim_2$SEXO, useNA = "ifany")
+table(dados_sim_2$RACACOR, useNA = "ifany")
+table(dados_sim_2$ESC2010, useNA = "ifany")
+table(dados_sim_2$TPMORTEOCO, useNA = "ifany")
+table(dados_sim_2$CAUSABAS, useNA = "ifany")
+table(dados_sim_2$IDADE, useNA = "ifany")
+idade_cod <- ifelse(is.na(dados_sim_2$IDADE), NA_character_, sprintf("%03d", dados_sim_2$IDADE))
+sort(unique(idade_cod))
+table(substr(idade_cod, 1, 1), useNA = "ifany")
 
 # Tarefa 5. Atribuir para cada variável de dados_sim_2 como sendo NA a categoria de "Não informado ou Ignorado", 
 # geralmente com código 9
