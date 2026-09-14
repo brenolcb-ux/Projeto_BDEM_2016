@@ -215,6 +215,9 @@ SIM_RR <- rbind(SIM_UF, SIM_MUNICIPIO)
 
 # Ao terminar a Tarefa 8 fazer um commit com o comentário "dados SIM_UF 2016 e script - SIM - tarefas 1 a 8"  e envie para o repositório Projeto_BDEM_2016
 
+write.csv(SIM_RR, "SIM_RR.csv", row.names = FALSE)
+#file.exists("SIM_RR.csv")
+
 
 
 ####################################
