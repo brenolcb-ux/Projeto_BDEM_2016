@@ -127,6 +127,89 @@ table(dados_sim_2$TPMORTEOCO, useNA = "ifany")
 
 # Ao terminar a Tarefa 7 commit com a mensagem "script BDEM - SIM - tarefas 1 a 7" e envie para o repositório Projeto_BDEM_2016
 
+sim_7 <- dados_sim_2
+sim_7$IDADE3 <- ifelse(is.na(sim_7$IDADE), NA_character_, sprintf("%03d", sim_7$IDADE))
+sim_7$UNIDADE_IDADE <- substr(sim_7$IDADE3, 1, 1)
+sim_7$QTD_IDADE <- as.numeric(substr(sim_7$IDADE3, 2, 3))
+sim_7$LETRA_CID <- substr(sim_7$CAUSABAS, 1, 1)
+sim_7$NUM_CID <- suppressWarnings(as.numeric(substr(sim_7$CAUSABAS, 2, 3)))
+
+
+sim_7$TO <- 1
+sim_7$TO_NN <- as.integer(!is.na(sim_7$CAUSABAS) & sim_7$LETRA_CID %in% c("V", "W", "X", "Y"))
+sim_7$TO_N <- as.integer(!is.na(sim_7$CAUSABAS) & !sim_7$LETRA_CID %in% c("V", "W", "X", "Y"))
+sim_7$TO_CB_I <- as.integer(!is.na(sim_7$CAUSABAS) & sim_7$LETRA_CID %in% c("A", "B"))
+sim_7$TO_CB_N <- as.integer(!is.na(sim_7$CAUSABAS) & (sim_7$LETRA_CID == "C" | (sim_7$LETRA_CID == "D" & sim_7$NUM_CID <= 48) | (sim_7$LETRA_CID == "D" & sim_7$NUM_CID >= 50 & sim_7$NUM_CID <= 89)))
+sim_7$TO_CB_C <- as.integer(!is.na(sim_7$CAUSABAS) & sim_7$LETRA_CID == "I")
+sim_7$TO_CB_R <- as.integer(!is.na(sim_7$CAUSABAS) & sim_7$LETRA_CID == "J")
+sim_7$TO_CB_O <- as.integer(sim_7$TO_N == 1 & sim_7$TO_CB_I == 0 & sim_7$TO_CB_N == 0 & sim_7$TO_CB_C == 0 & sim_7$TO_CB_R == 0)
+sim_7$TO_M <- as.integer(sim_7$SEXO == "Masculino")
+sim_7$TO_F <- as.integer(sim_7$SEXO == "Feminino")
+sim_7$TO_F_IF <- as.integer(sim_7$SEXO == "Feminino" & sim_7$UNIDADE_IDADE == "4" & sim_7$QTD_IDADE >= 15 & sim_7$QTD_IDADE <= 49)
+
+
+sim_7$TO_FT <- as.integer(sim_7$TIPOBITO == "Fetal")
+sim_7$TO_NT <- as.integer(sim_7$UNIDADE_IDADE %in% c("0", "1") | (sim_7$UNIDADE_IDADE == "2" & sim_7$QTD_IDADE <= 27))
+sim_7$TO_NT_P <- as.integer(sim_7$UNIDADE_IDADE %in% c("0", "1") | (sim_7$UNIDADE_IDADE == "2" & sim_7$QTD_IDADE <= 6))
+sim_7$TO_NT_T <- as.integer(sim_7$UNIDADE_IDADE == "2" & sim_7$QTD_IDADE >= 7 & sim_7$QTD_IDADE <= 27)
+sim_7$TO_PNT <- as.integer((sim_7$UNIDADE_IDADE == "2" & sim_7$QTD_IDADE >= 28) | sim_7$UNIDADE_IDADE == "3")
+sim_7$TONT_B <- as.integer(sim_7$TO_NT == 1 & sim_7$RACACOR == "Branca")
+sim_7$TONT_PT <- as.integer(sim_7$TO_NT == 1 & sim_7$RACACOR == "Preta")
+sim_7$TONT_A <- as.integer(sim_7$TO_NT == 1 & sim_7$RACACOR == "Amarela")
+sim_7$TONT_PD <- as.integer(sim_7$TO_NT == 1 & sim_7$RACACOR == "Parda")
+sim_7$TONT_I <- as.integer(sim_7$TO_NT == 1 & sim_7$RACACOR == "Indígena")
+
+
+colSums(sim_7[, c("TO", "TO_NN", "TO_N", "TO_CB_I", "TO_CB_N", "TO_CB_C", "TO_CB_R", "TO_CB_O", "TO_M", "TO_F", "TO_F_IF", "TO_FT", "TO_NT", "TO_NT_P", "TO_NT_T", "TO_PNT", "TONT_B", "TONT_PT", "TONT_A", "TONT_PD", "TONT_I")], na.rm = TRUE)
+
+
+sim_7$TO_MT_DG <- as.integer(sim_7$SEXO %in% "Feminino" & sim_7$TPMORTEOCO %in% "Na gravidez")
+sim_7$TO_MT_PT <- as.integer(sim_7$SEXO %in% "Feminino" & sim_7$TPMORTEOCO %in% "No parto")
+sim_7$TO_MT_AB <- as.integer(sim_7$SEXO %in% "Feminino" & sim_7$TPMORTEOCO %in% "No abortamento")
+sim_7$TO_MT_42 <- as.integer(sim_7$SEXO %in% "Feminino" & sim_7$TPMORTEOCO %in% "Até 42 dias após o término do parto")
+sim_7$TO_MT_43 <- as.integer(sim_7$SEXO %in% "Feminino" & sim_7$TPMORTEOCO %in% "De 43 dias a 1 ano após o término da gestação")
+sim_7$TO_MT_P <- as.integer(sim_7$TO_MT_DG == 1 | sim_7$TO_MT_PT == 1 | sim_7$TO_MT_AB == 1 | sim_7$TO_MT_42 == 1)
+sim_7$TO_MT <- as.integer(sim_7$TO_MT_P == 1 | sim_7$TO_MT_43 == 1)
+sim_7$TO_MT_P_I <- as.integer(sim_7$TO_MT_P == 1 & !is.na(sim_7$QTD_IDADE) & sim_7$UNIDADE_IDADE == "4" & sim_7$QTD_IDADE >= 15 & sim_7$QTD_IDADE <= 49)
+sim_7$TO_MT_P_ES <- as.integer(sim_7$TO_MT_P == 1 & sim_7$ESC2010 %in% "Sem escolaridade")
+sim_7$TO_MT_P_EFI <- as.integer(sim_7$TO_MT_P == 1 & sim_7$ESC2010 %in% "Fundamental I (1ª a 4ª série)")
+sim_7$TO_MT_P_EFII <- as.integer(sim_7$TO_MT_P == 1 & sim_7$ESC2010 %in% "Fundamental II (5ª a 8ª série)")
+sim_7$TO_MT_P_EM <- as.integer(sim_7$TO_MT_P == 1 & sim_7$ESC2010 %in% "Médio (antigo 2º grau)")
+sim_7$TO_MT_P_ESI <- as.integer(sim_7$TO_MT_P == 1 & sim_7$ESC2010 %in% "Superior incompleto")
+sim_7$TO_MT_P_ESC <- as.integer(sim_7$TO_MT_P == 1 & sim_7$ESC2010 %in% "Superior completo")
+
+colSums(sim_7[, c("TO_MT", "TO_MT_DG", "TO_MT_PT", "TO_MT_AB", "TO_MT_42", "TO_MT_43", "TO_MT_P", "TO_MT_P_I", "TO_MT_P_ES", "TO_MT_P_EFI", "TO_MT_P_EFII", "TO_MT_P_EM", "TO_MT_P_ESI", "TO_MT_P_ESC")], na.rm = TRUE)
+
+dados_sim_rr87 <- dados_sim[!is.na(dados_sim$CODMUNRES) & substr(dados_sim$CODMUNRES, 1, 2) == "14", ]
+sim_7$TORC <- as.integer(complete.cases(dados_sim_rr87))
+
+sim_7$TORCR <- as.integer(complete.cases(dados_sim_2))
+sum(sim_7$TORCR)
+length(sim_7$TORCR)
+
+variaveis_sim <- c("TO", "TORC", "TORCR", "TO_NN", "TO_N", "TO_CB_I", "TO_CB_N", "TO_CB_C", "TO_CB_R", "TO_CB_O", "TO_M", "TO_F", "TO_F_IF", "TO_FT", "TO_NT", "TO_NT_P", "TO_NT_T", "TO_PNT", "TONT_B", "TONT_PT", "TONT_A", "TONT_PD", "TONT_I", "TO_MT", "TO_MT_DG", "TO_MT_PT", "TO_MT_AB", "TO_MT_42", "TO_MT_43", "TO_MT_P", "TO_MT_P_I", "TO_MT_P_ES", "TO_MT_P_EFI", "TO_MT_P_EFII", "TO_MT_P_EM", "TO_MT_P_ESI", "TO_MT_P_ESC")
+
+SIM_MUNICIPIO <- aggregate(sim_7[, variaveis_sim], by = list(CODMUNRES = sim_7$CODMUNRES), FUN = sum, na.rm = TRUE)
+SIM_MUNICIPIO$ANO <- 2016
+SIM_MUNICIPIO$NIVEL <- "MUNICIPIO"
+SIM_MUNICIPIO <- SIM_MUNICIPIO[, c("ANO", "NIVEL", "CODMUNRES", variaveis_sim)]
+
+#dim(SIM_MUNICIPIO)
+#SIM_MUNICIPIO[, c("CODMUNRES", "TO")]
+
+SIM_UF <- data.frame(ANO = 2016, NIVEL = "UF", CODMUNRES = 14, as.list(colSums(sim_7[, variaveis_sim], na.rm = TRUE)))
+SIM_RR <- rbind(SIM_UF, SIM_MUNICIPIO)
+
+#dim(SIM_RR)
+#names(SIM_RR)
+#SIM_RR[, c("ANO", "NIVEL", "CODMUNRES", "TO", "TORC", "TORCR")]
+#SIM_RR[SIM_RR$NIVEL == "UF", ]
+
+
+
+
+
+
 
 # Tarefa 8. Exportar o banco de dados com o nome SIM_UF.csv (Exemplo: SIM_RJ.csv)
 
