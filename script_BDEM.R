@@ -234,6 +234,12 @@ write.csv(SIM_RR, "SIM_RR.csv", row.names = FALSE)
 
 # Ao terminar a Tarefa 1 commit com a mensagem "script BDEM - SINASC - tarefa 1" e envie para o repositório Projeto_BDEM_2016
 
+dados_sinasc <- read.csv("SINASC_2016.csv", header = TRUE, sep = ";", stringsAsFactors = FALSE)
+names(dados_sinasc) <- toupper(names(dados_sinasc))
+dim(dados_sinasc)
+str(dados_sinasc)
+
+
 # Tarefa 2. Reduzir dados_sinasc apenas para as colunas que serão utilizadas, nomeando este novo banco de dados como dados_sinasc_1
 # As colunas serão 3, 4, 5, 6, 11, 12, 13, 14, 18, 20, 21, 22, 23, 34, 37, 43, 47, 58, 59, 60, 61
 # Nomes das respectivas variáveis: CODMUNNASC, LOCNASC, IDADEMAE, ESTCIVMAE, CODMUNRES, GESTACAO, GRAVIDEZ, PARTO, 
