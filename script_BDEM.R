@@ -369,6 +369,19 @@ dados_sinasc_2$KOTELCHUCK <- factor(dados_sinasc_2$KOTELCHUCK, levels = c(1, 2, 
 
 # Ao terminar a Tarefa 7 commit com a mensagem "script BDEM - SINASC - tarefas 1 a 7" e envie para o repositório Projeto_BDEM_2016
 
+dados_sinasc_2$F_PESO <- cut(dados_sinasc_2$PESO, breaks = c(-Inf, 2499, 3999, Inf), labels = c("Baixo peso", "Normal", "Macrossomia"))
+
+dados_sinasc_2$F_IDADE <- cut(dados_sinasc_2$IDADEMAE, breaks = c(-Inf, 14, 19, 24, 29, 34, 39, 44, 49, Inf), labels = c("Menor de 15 anos", "15 a 19 anos", "20 a 24 anos", "25 a 29 anos", "30 a 34 anos", "35 a 39 anos", "40 a 44 anos", "45 a 49 anos", "50 anos ou mais"))
+
+dados_sinasc_2$F_APGAR5 <- ifelse(is.na(dados_sinasc_2$APGAR5), NA, ifelse(dados_sinasc_2$APGAR5 < 7, "Baixo", "Normal"))
+dados_sinasc_2$F_APGAR5 <- factor(dados_sinasc_2$F_APGAR5, levels = c("Baixo", "Normal"))
+
+dados_sinasc_2$PEREG <- ifelse(is.na(dados_sinasc_2$CODMUNNASC) | is.na(dados_sinasc_2$CODMUNRES), NA, ifelse(dados_sinasc_2$CODMUNNASC == dados_sinasc_2$CODMUNRES, "Não", "Sim"))
+dados_sinasc_2$PEREG <- factor(dados_sinasc_2$PEREG, levels = c("Não", "Sim"))
+
+dados_sinasc_2$ESTCIV <- ifelse(is.na(dados_sinasc_2$ESTCIVMAE), NA, ifelse(dados_sinasc_2$ESTCIVMAE %in% c("Solteira", "Viúva", "Separada judicialmente/divorciada"), "Sem companheiro", "Com companheiro"))
+dados_sinasc_2$ESTCIV <- factor(dados_sinasc_2$ESTCIV, levels = c("Sem companheiro", "Com companheiro"))
+
 
 # Tarefa 8. Agregar ao banco de dados_sinasc_2 as informações PESO_P10 e PESO_P90 a partir de Tabela_PIG_Brasil.csv
 # a Tabela PIG informa P10 e P90 dos pesos, de acordo com a idade gestacional
