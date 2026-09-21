@@ -268,6 +268,9 @@ str(dados_sinasc_1)
 
 # Ao terminar a Tarefa 3 commit com a mensagem "script BDEM - SINASC - tarefas 1 a 3" e envie para o repositório Projeto_BDEM_2016
 
+dados_sinasc_2 <- dados_sinasc_1[!is.na(dados_sinasc_1$CODMUNRES) & substr(dados_sinasc_1$CODMUNRES, 1, 2) == "14", ]
+dim(dados_sinasc_2)
+table(substr(dados_sinasc_2$CODMUNRES, 1, 2))
 
 # Tarefa 4. Verificar em dados_sinasc_2 a frequência das categorias das seguintes variáveis: LOCNASC, ESTCIVMAE, GESTACAO, GRAVIDEZ, PARTO,
 # SEXO, RACACOR, IDANOMAL, ESCMAE2010, RACACORMAE, TPAPRESENT, TPROBSON, PARIDADE, KOTELCHUCK
