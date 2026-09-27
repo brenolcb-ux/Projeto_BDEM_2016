@@ -392,6 +392,24 @@ dados_sinasc_2$ESTCIV <- factor(dados_sinasc_2$ESTCIV, levels = c("Sem companhei
 
 # Ao terminar a Tarefa 8 commit com a mensagem "script BDEM - SINASC - tarefas 1 a 8" e envie para o repositório Projeto_BDEM_2016
 
+tabela_pig <- read.csv("Tabela_PIG_Brasil.csv", header = TRUE, sep = ";", stringsAsFactors = FALSE)
+
+chave_pig <- paste(tabela_pig$SEMAGESTAC, tabela_pig$SEXO)
+chave_sinasc <- paste(dados_sinasc_2$SEMAGESTAC, as.character(dados_sinasc_2$SEXO))
+
+dados_sinasc_2$PESO_P10 <- tabela_pig$PESO_P10[match(chave_sinasc, chave_pig)]
+dados_sinasc_2$PESO_P90 <- tabela_pig$PESO_P90[match(chave_sinasc, chave_pig)]
+
+dados_sinasc_2$F_PIG <- ifelse(dados_sinasc_2$GRAVIDEZ == "Única" & !is.na(dados_sinasc_2$PESO) & !is.na(dados_sinasc_2$PESO_P10) & !is.na(dados_sinasc_2$PESO_P90), ifelse(dados_sinasc_2$PESO < dados_sinasc_2$PESO_P10, "PIG", ifelse(dados_sinasc_2$PESO <= dados_sinasc_2$PESO_P90, "AIG", "GIG")), NA)
+
+dados_sinasc_2$F_PIG <- factor(dados_sinasc_2$F_PIG, levels = c("PIG", "AIG", "GIG"))
+
+
+#dim(dados_sinasc_2)
+#table(dados_sinasc_2$F_PIG, useNA = "ifany")
+#summary(dados_sinasc_2$PESO_P10)
+#summary(dados_sinasc_2$PESO_P90)
+
 
 # Tarefa 9. Criar um banco de dados, de nome SINASC_UF.csv (Exemplo: SINASC_RJ.csv), contendo as variáveis listadas no arquivo “Variáveis - Projeto - Tarefa 9 - SINASC.pdf”
 # Atenção: a ordem das variáveis do arquivo deve ser respeitada
