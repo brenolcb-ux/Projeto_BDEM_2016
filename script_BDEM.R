@@ -417,6 +417,161 @@ dados_sinasc_2$F_PIG <- factor(dados_sinasc_2$F_PIG, levels = c("PIG", "AIG", "G
 
 # Ao terminar a Tarefa 9 commit com a mensagem "script BDEM - SINASC - tarefas 1 a 9" e envie para o repositório Projeto_BDEM_2016
 
+dados_sinasc_61_rr <- dados_sinasc[!is.na(dados_sinasc$CODMUNRES) & substr(dados_sinasc$CODMUNRES, 1, 2) == "14", ]
+
+vars_sel <- c("CODMUNNASC", "LOCNASC", "IDADEMAE", "ESTCIVMAE", "CODMUNRES", "GESTACAO", "GRAVIDEZ", "PARTO", "SEXO", "APGAR5", "RACACOR", "PESO", "IDANOMAL", "ESCMAE2010", "RACACORMAE", "SEMAGESTAC", "TPAPRESENT", "TPROBSON", "PARIDADE", "KOTELCHUCK", "CONTADOR")
+
+q <- function(x, p) if (all(is.na(x))) NA_real_ else as.numeric(quantile(x, p, na.rm = TRUE, names = FALSE))
+md <- function(x) if (all(is.na(x))) NA_real_ else mean(x, na.rm = TRUE)
+dp <- function(x) if (sum(!is.na(x)) < 2) NA_real_ else sd(x, na.rm = TRUE)
+ncat <- function(x, valor) sum(x %in% valor, na.rm = TRUE)
+
+resumo_sinasc <- function(d, d61, nivel, codigo) {
+  
+  data.frame(
+    ANO = 2016,
+    NIVEL = nivel,
+    CODMUNRES = codigo,
+    
+    TN = nrow(d),
+    TNRC = sum(complete.cases(d61)),
+    TNRCR = sum(complete.cases(d[, vars_sel, drop = FALSE])),
+    
+    TGI_15 = sum(d$IDADEMAE < 15, na.rm = TRUE),
+    TGI_15_19 = sum(d$IDADEMAE >= 15 & d$IDADEMAE <= 19, na.rm = TRUE),
+    TGI_20_24 = sum(d$IDADEMAE >= 20 & d$IDADEMAE <= 24, na.rm = TRUE),
+    TGI_25_29 = sum(d$IDADEMAE >= 25 & d$IDADEMAE <= 29, na.rm = TRUE),
+    TGI_30_34 = sum(d$IDADEMAE >= 30 & d$IDADEMAE <= 34, na.rm = TRUE),
+    TGI_35_39 = sum(d$IDADEMAE >= 35 & d$IDADEMAE <= 39, na.rm = TRUE),
+    TGI_40_44 = sum(d$IDADEMAE >= 40 & d$IDADEMAE <= 44, na.rm = TRUE),
+    TGI_45_49 = sum(d$IDADEMAE >= 45 & d$IDADEMAE <= 49, na.rm = TRUE),
+    TGI_50 = sum(d$IDADEMAE >= 50, na.rm = TRUE),
+    TGIF = sum(d$IDADEMAE >= 15 & d$IDADEMAE <= 49, na.rm = TRUE),
+    
+    IM_P25 = q(d$IDADEMAE, 0.25),
+    IM_P50 = q(d$IDADEMAE, 0.50),
+    IM_P75 = q(d$IDADEMAE, 0.75),
+    IM_MD = md(d$IDADEMAE),
+    IM_DP = dp(d$IDADEMAE),
+    
+    EM_S = ncat(d$ESCMAE2010, "Sem escolaridade"),
+    EM_FI = ncat(d$ESCMAE2010, "Fundamental I (1ª a 4ª série)"),
+    EM_FII = ncat(d$ESCMAE2010, "Fundamental II (5ª a 8ª série)"),
+    EM_M = ncat(d$ESCMAE2010, "Médio (antigo 2º grau)"),
+    EM_SI = ncat(d$ESCMAE2010, "Superior incompleto"),
+    EM_SC = ncat(d$ESCMAE2010, "Superior completo"),
+    
+    TGRC_B = ncat(d$RACACORMAE, "Branca"),
+    TGRC_PT = ncat(d$RACACORMAE, "Preta"),
+    TGRC_A = ncat(d$RACACORMAE, "Amarela"),
+    TGRC_PD = ncat(d$RACACORMAE, "Parda"),
+    TGRC_I = ncat(d$RACACORMAE, "Indígena"),
+    
+    TGSC = ncat(d$ESTCIV, "Sem companheiro"),
+    TGCC = ncat(d$ESTCIV, "Com companheiro"),
+    
+    TGPRI = ncat(d$PARIDADE, "Nulípara"),
+    TGNPRI = ncat(d$PARIDADE, "Multípara"),
+    
+    TGU = ncat(d$GRAVIDEZ, "Única"),
+    TGG = ncat(d$GRAVIDEZ, c("Dupla", "Tripla ou mais")),
+    
+    TGD_22 = sum(d$SEMAGESTAC < 22, na.rm = TRUE),
+    TGD_22_27 = sum(d$SEMAGESTAC >= 22 & d$SEMAGESTAC <= 27, na.rm = TRUE),
+    TGD_28_31 = sum(d$SEMAGESTAC >= 28 & d$SEMAGESTAC <= 31, na.rm = TRUE),
+    TGD_32_36 = sum(d$SEMAGESTAC >= 32 & d$SEMAGESTAC <= 36, na.rm = TRUE),
+    TGD_37_41 = sum(d$SEMAGESTAC >= 37 & d$SEMAGESTAC <= 41, na.rm = TRUE),
+    TGD_42 = sum(d$SEMAGESTAC >= 42, na.rm = TRUE),
+    
+    TGD_PRT = sum(d$SEMAGESTAC < 37, na.rm = TRUE),
+    TGD_AT = sum(d$SEMAGESTAC >= 37 & d$SEMAGESTAC <= 41, na.rm = TRUE),
+    TGD_PST = sum(d$SEMAGESTAC >= 42, na.rm = TRUE),
+    
+    DG_P25 = q(d$SEMAGESTAC, 0.25),
+    DG_P50 = q(d$SEMAGESTAC, 0.50),
+    DG_P75 = q(d$SEMAGESTAC, 0.75),
+    DG_MD = md(d$SEMAGESTAC),
+    DG_DP = dp(d$SEMAGESTAC),
+    
+    TKC_NR = ncat(d$KOTELCHUCK, "Não realizou pré-natal"),
+    TKC_ID = ncat(d$KOTELCHUCK, "Inadequado"),
+    TKC_IT = ncat(d$KOTELCHUCK, "Intermediário"),
+    TKC_AD = ncat(d$KOTELCHUCK, "Adequado"),
+    TKC_MAD = ncat(d$KOTELCHUCK, "Mais que adequado"),
+    
+    TGPRG_S = ncat(d$PEREG, "Sim"),
+    TGPRG_N = ncat(d$PEREG, "Não"),
+    
+    TPV = ncat(d$PARTO, "Vaginal"),
+    TPC = ncat(d$PARTO, "Cesário"),
+    
+    TRAP_C = ncat(d$TPAPRESENT, "Cefálico"),
+    TRAP_P = ncat(d$TPAPRESENT, "Pélvica ou podálica"),
+    TRAP_T = ncat(d$TPAPRESENT, "Transversa"),
+    
+    TGROB_1 = ncat(d$TPROBSON, "Grupo 1"),
+    TGROB_2 = ncat(d$TPROBSON, "Grupo 2"),
+    TGROB_3 = ncat(d$TPROBSON, "Grupo 3"),
+    TGROB_4 = ncat(d$TPROBSON, "Grupo 4"),
+    TGROB_5 = ncat(d$TPROBSON, "Grupo 5"),
+    TGROB_6 = ncat(d$TPROBSON, "Grupo 6"),
+    TGROB_7 = ncat(d$TPROBSON, "Grupo 7"),
+    TGROB_8 = ncat(d$TPROBSON, "Grupo 8"),
+    TGROB_9 = ncat(d$TPROBSON, "Grupo 9"),
+    TGROB_10 = ncat(d$TPROBSON, "Grupo 10"),
+    
+    TNLOC_H = ncat(d$LOCNASC, "Hospital"),
+    TNLOC_ES = ncat(d$LOCNASC, "Outros estabelecimentos de saúde"),
+    TNLOC_D = ncat(d$LOCNASC, "Domicílio"),
+    TNLOC_O = ncat(d$LOCNASC, "Outros"),
+    TNLOC_AI = ncat(d$LOCNASC, "Aldeia indígena"),
+    
+    TRS_M = ncat(d$SEXO, "Masculino"),
+    TRS_F = ncat(d$SEXO, "Feminino"),
+    
+    TRRC_B = ncat(d$RACACOR, "Branca"),
+    TRRC_PT = ncat(d$RACACOR, "Preta"),
+    TRRC_A = ncat(d$RACACOR, "Amarela"),
+    TRRC_PD = ncat(d$RACACOR, "Parda"),
+    TRRC_I = ncat(d$RACACOR, "Indígena"),
+    
+    TRP_BP = sum(d$PESO < 2500, na.rm = TRUE),
+    TRP_N = sum(d$PESO >= 2500 & d$PESO < 4000, na.rm = TRUE),
+    TRP_M = sum(d$PESO >= 4000, na.rm = TRUE),
+    
+    PESO_P25 = q(d$PESO, 0.25),
+    PESO_P50 = q(d$PESO, 0.50),
+    PESO_P75 = q(d$PESO, 0.75),
+    PESO_MD = md(d$PESO),
+    PESO_DP = dp(d$PESO),
+    
+    TRPIG_P = ncat(d$F_PIG, "PIG"),
+    TRPIG_A = ncat(d$F_PIG, "AIG"),
+    TRPIG_G = ncat(d$F_PIG, "GIG"),
+    
+    TRAPG5_B = sum(d$APGAR5 < 7, na.rm = TRUE),
+    TRAPG5_N = sum(d$APGAR5 >= 7, na.rm = TRUE),
+    APG5_MD = md(d$APGAR5),
+    APG5_DP = dp(d$APGAR5),
+    
+    TRAC = ncat(d$IDANOMAL, "Sim"),
+    TRSAC = ncat(d$IDANOMAL, "Não"),
+    
+    stringsAsFactors = FALSE
+  )
+}
+
+SINASC_RR <- resumo_sinasc(dados_sinasc_2, dados_sinasc_61_rr, "UF", 140000)
+
+municipios <- sort(unique(dados_sinasc_2$CODMUNRES[dados_sinasc_2$CODMUNRES != 140000]))
+
+for (m in municipios) {
+  idx <- dados_sinasc_2$CODMUNRES == m
+  SINASC_RR <- rbind(SINASC_RR, resumo_sinasc(dados_sinasc_2[idx, ], dados_sinasc_61_rr[idx, ], "MUNICIPIO", m))
+}
+
+rownames(SINASC_RR) <- NULL
+
 
 # Tarefa 10. Exportar o banco de dados com o nome SINASC_UF.csv (Exemplo: SINASC_RJ.csv)
 # Ao terminar a Tarefa 10 commit com o comentário "dados SINASC_UF 2016 e script - SIM - tarefas 1 a 10"  e envie para o repositório Projeto_BDEM_2016
