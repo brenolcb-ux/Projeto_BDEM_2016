@@ -649,6 +649,16 @@ table(dados_sidra_4$CODUF)
 
 # Ao terminar a Tarefa 3 commit com a mensagem "script BDEM - SIDRA - tarefas 1 a 3" e envie para o repositório Projeto_BDEM_2016
 
+sidra_1 <- dados_sidra_1[dados_sidra_1$CODUF == 14, ]
+sidra_2 <- dados_sidra_2[dados_sidra_2$CODUF == 14, ]
+sidra_3 <- dados_sidra_3[!is.na(dados_sidra_3$CODMUNRES) & dados_sidra_3$CODMUNRES == 14, ]
+sidra_4 <- dados_sidra_4[dados_sidra_4$CODUF == 14, ]
+
+dim(sidra_1)
+dim(sidra_2)
+dim(sidra_3)
+dim(sidra_4)
+
 
 # Tarefa 4: Criar um banco de dados, de nome SIDRA_UF.csv (Exemplo: SIDRA_RJ.csv), contendo as variáveis listadas no arquivo “Variáveis - Projeto - Tarefa 4 - SIDRA.pdf”
 
