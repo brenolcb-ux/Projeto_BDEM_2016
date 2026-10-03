@@ -629,6 +629,19 @@ head(dados_sidra_1)
 
 # Ao terminar a Tarefa 2 commit com a mensagem "script BDEM - SIDRA - tarefas 1 a 2" e envie para o repositório Projeto_BDEM_2016
 
+dados_sidra_1$CODUF <- as.integer(substr(as.character(dados_sidra_1$CODMUNRES), 1, 2))
+dados_sidra_2$CODUF <- as.integer(substr(as.character(dados_sidra_2$CODMUNRES), 1, 2))
+dados_sidra_4$CODUF <- as.integer(substr(as.character(dados_sidra_4$CODMUNRES), 1, 2))
+
+head(dados_sidra_1)
+head(dados_sidra_2)
+head(dados_sidra_4)
+
+table(dados_sidra_1$CODUF)
+table(dados_sidra_2$CODUF)
+table(dados_sidra_4$CODUF)
+
+
 
 # Tarefa 3. Selecionar em dados_sidra_ 1 a dados_sidra_4 a UF de responsabilidade do aluno 
 # e chamar os bancos de dados, respectivamente por sidra_1, sidra_2, sidra_3 e sidra_4
