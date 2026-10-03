@@ -596,6 +596,33 @@ write.csv(SINASC_RR, "SINASC_RR.csv", row.names = FALSE, fileEncoding = "UTF-8")
 
 # Ao terminar a Tarefa 1 commit com a mensagem "script BDEM - SIDRA - tarefa 1" e envie para o repositório Projeto_BDEM_2016
 
+dados_sidra_1 <- read.csv("população residente estimada - UF e municípios - 2016 - SIDRA - tabela_6579.csv", header = TRUE, sep = ";", stringsAsFactors = FALSE, fileEncoding = "latin1")
+
+dados_sidra_2 <- read.csv("população residente censo 2010 - UF e municípios - total e por sexo - SIDRA - tabela_1552.csv", header = TRUE, sep = ";", stringsAsFactors = FALSE)
+
+dados_sidra_3 <- read.csv("população residente censo 2010 - por faixa etária - UF - SIDRA - tabela_1552.csv", header = TRUE, sep = ";", stringsAsFactors = FALSE)
+
+dados_sidra_4 <- read.csv("população residente censo 2010 - por faixa etária e sexo - municípios - SIDRA - tabela_1552.csv", header = TRUE, sep = ";", stringsAsFactors = FALSE)
+
+
+dim(dados_sidra_1)
+str(dados_sidra_1)
+
+dim(dados_sidra_2)
+str(dados_sidra_2)
+
+dim(dados_sidra_3)
+str(dados_sidra_3)
+
+dim(dados_sidra_4)
+str(dados_sidra_4)
+
+dim(dados_sidra_1)
+dim(dados_sidra_2)
+dim(dados_sidra_3)
+dim(dados_sidra_4)
+
+head(dados_sidra_1)
 
 # Tarefa 2. Criar uma nova variável de nome CODUF com os códigos da UF nos bancos dados_sidra_1, dados_sidra_2, dados_sidra_4
 
