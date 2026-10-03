@@ -664,6 +664,50 @@ dim(sidra_4)
 
 # Ao terminar a Tarefa 4 commit com a mensagem "script BDEM - SIDRA - tarefas 1 a 4" e envie para o repositório Projeto_BDEM_2016
 
+faixa_15 <- c("0 a 4 anos", "5 a 9 anos", "10 a 14 anos")
+
+faixa_15_49 <- c("15 a 19 anos", "20 a 24 anos", "25 a 29 anos",
+                 "30 a 34 anos", "35 a 39 anos", "40 a 44 anos",
+                 "45 a 49 anos")
+
+faixa_50 <- c("50 a 54 anos", "55 a 59 anos", "60 a 64 anos",
+              "65 a 69 anos", "70 a 74 anos", "75 a 79 anos",
+              "80 a 89 anos", "90 a 99 anos", "100 anos ou mais")
+
+idades_rr <- rbind(
+  data.frame(CODMUNRES = 14,
+             F_IDADE = sidra_3$F_IDADE,
+             POP = sidra_3$POP,
+             POPF = sidra_3$POPF),
+  sidra_4[, c("CODMUNRES", "F_IDADE", "POP", "POPF")]
+)
+
+soma_faixa <- function(cod, faixas, variavel) {
+  sum(idades_rr[[variavel]][idades_rr$CODMUNRES == cod &
+                              idades_rr$F_IDADE %in% faixas],
+      na.rm = TRUE)
+}
+
+codigos_rr <- sidra_1$CODMUNRES
+
+SIDRA_RR <- data.frame(
+  ANO = 2016,
+  NIVEL = ifelse(codigos_rr == 14, "UF", "MUNICIPIO"),
+  CODMUNRES = codigos_rr,
+  POPRE_T = as.numeric(sidra_1$POPRE_T),
+  POPRC_T = sidra_2$POPRC_T[match(codigos_rr, sidra_2$CODMUNRES)],
+  POPRC_M = sidra_2$POPRC_M[match(codigos_rr, sidra_2$CODMUNRES)],
+  POPRC_F = sidra_2$POPRC_F[match(codigos_rr, sidra_2$CODMUNRES)],
+  POPRC_15 = sapply(codigos_rr, soma_faixa, faixas = faixa_15, variavel = "POP"),
+  POPRC_15_49 = sapply(codigos_rr, soma_faixa, faixas = faixa_15_49, variavel = "POP"),
+  POPRC_50 = sapply(codigos_rr, soma_faixa, faixas = faixa_50, variavel = "POP"),
+  POPRC_F_15 = sapply(codigos_rr, soma_faixa, faixas = faixa_15, variavel = "POPF"),
+  POPRC_F_15_49 = sapply(codigos_rr, soma_faixa, faixas = faixa_15_49, variavel = "POPF"),
+  POPRC_F_50 = sapply(codigos_rr, soma_faixa, faixas = faixa_50, variavel = "POPF")
+)
+
+dim(SIDRA_RR)
+
 
 # Tarefa 5:Exportar o banco de dados com o nome SIDRA_UF.csv (Exemplo: SIDRA_RJ.csv)
 # Ao terminar a Tarefa 5 commit com o comentário "dados SIDRA_UF 2016 e script - SIDRA - tarefas 1 a 5"  e envie para o repositório Projeto_BDEM_2016
