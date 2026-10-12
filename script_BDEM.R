@@ -800,6 +800,66 @@ UF_codigo = data.frame(
 
 # Ao terminar a Tarefa 2 commit com a mensagem "script BDEM - ATLAS - tarefas 1 a 2" e envie para o repositório Projeto_BDEM_2016
 
+dados_atlas_1 <- dados_atlas_1[dados_atlas_1$UF != "Brasil", ]
+dados_atlas_1 <- merge(dados_atlas_1, UF_codigo, by = "UF")
+
+linha_estado <- data.frame(
+  ANO = 2016,
+  NIVEL = "UF",
+  CODMUNRES = dados_atlas_1$CODUF,
+  IDHM_A = dados_atlas_1$IDHM_2016,
+  IDHM_CA = dados_atlas_1$IDHM_2010,
+  IDHM_CA_M = dados_atlas_1$IDHM_2010_M,
+  IDHM_CA_F = dados_atlas_1$IDHM_2010_F
+)
+
+linha_estado <- linha_estado[linha_estado$CODMUNRES == 14, ]
+
+dados_atlas_2$UF <- sub(".*\\(([A-Z]{2})\\)$", "\\1", dados_atlas_2$município)
+
+dados_atlas_2$município <- sub(" \\([A-Z]{2}\\)$", "", dados_atlas_2$município)
+
+codigos_IBGE_2010$CODUF <- as.integer(substr(as.character(codigos_IBGE_2010$CODMUNRES), 1, 2))
+
+codigos_IBGE_2010 <- merge(codigos_IBGE_2010, UF_codigo, by = "CODUF")
+
+atlas_municipio <- merge(
+  dados_atlas_2,
+  codigos_IBGE_2010,
+  by.x = c("município", "UF"),
+  by.y = c("município", "SIGLA")
+)
+
+atlas_municipio$UF.y <- NULL
+
+atlas_municipio <- atlas_municipio[
+  substr(as.character(atlas_municipio$CODMUNRES), 1, 2) == "14",
+]
+
+ATLAS_MUNICIPIO <- data.frame(
+  ANO = 2016,
+  NIVEL = "MUNICIPIO",
+  CODMUNRES = atlas_municipio$CODMUNRES,
+  IDHM_A = NA_real_,
+  IDHM_CA = atlas_municipio$IDHM_2010,
+  IDHM_CA_M = NA_real_,
+  IDHM_CA_F = NA_real_
+)
+
+ATLAS_RR <- rbind(linha_estado, ATLAS_MUNICIPIO)
+
+
+
+dim(linha_estado)
+linha_estado
+
+dim(atlas_municipio)
+dim(ATLAS_MUNICIPIO)
+
+dim(ATLAS_RR)
+names(ATLAS_RR)
+ATLAS_RR
+colSums(is.na(ATLAS_RR))
 
 # Tarefa 3. Exportar o banco de dados com o nome ATLAS_UF.csv (Exemplo: ATLAS_RJ.csv)
 # Ao terminar a Tarefa 3 commit com o comentário "dados ATLAS_UF 2016 e script - ATLAS - tarefas 1 a 3"  e envie para o repositório Projeto_BDEM_2016
