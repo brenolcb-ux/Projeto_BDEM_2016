@@ -730,6 +730,23 @@ write.csv(SIDRA_RR, "SIDRA_RR.csv", row.names = FALSE, fileEncoding = "UTF-8")
 
 # Ao terminar a Tarefa 1 commit com a mensagem "script BDEM - ATLAS - tarefa 1" e envie para o repositório Projeto_BDEM_2016
 
+codigos_IBGE_2010 <- read.csv("códigos dos municípios - 2010.csv", header = TRUE, sep = ";", stringsAsFactors = FALSE, fileEncoding = "UTF-8-BOM")
+
+dados_atlas_1 <- read.csv("IDHM - 2010 (CENSO) e 2016 (PNAD) - total e por sexo - UF - Atlas Brasil.csv", header = TRUE, sep = ";", stringsAsFactors = FALSE, fileEncoding = "latin1")
+
+dados_atlas_2 <- read.csv("IDHM - 2010 - municípios - Atlas Brasil.csv", header = TRUE, sep = ";", stringsAsFactors = FALSE, fileEncoding = "UTF-8-BOM")
+
+
+dim(codigos_IBGE_2010)
+str(codigos_IBGE_2010)
+
+dim(dados_atlas_1)
+str(dados_atlas_1)
+
+dim(dados_atlas_2)
+str(dados_atlas_2)
+
+
 
 # Tarefa 2: Manipular o banco de dados e criar o banco de dados ATLAS_UF
 
