@@ -883,6 +883,21 @@ write.csv(ATLAS_RR, "ATLAS_RR.csv", row.names = FALSE, fileEncoding = "UTF-8")
 
 # Ao terminar a Tarefa 1 commit com a mensagem "script BDEM - SINISA - tarefa 1" e envie para o repositório Projeto_BDEM_2016
 
+dados_sinisa <- read.csv("agua e esgoto - município - 2016.csv",
+                         header = TRUE,
+                         sep = ";",
+                         stringsAsFactors = FALSE,
+                         fileEncoding = "latin1",
+                         na.strings = "")
+
+
+dados_sinisa$POPR_RA <- as.numeric(gsub("\\.", "", as.character(dados_sinisa$POPR_RA)))
+dados_sinisa$POPR_RE <- as.numeric(gsub("\\.", "", as.character(dados_sinisa$POPR_RE)))
+
+
+dim(dados_sinisa)
+str(dados_sinisa)
+head(dados_sinisa)
 
 # Tarefa 2. Reduzir dados_sinisa apenas para o estado que o aluno irá trabalhar (utilizar os dois primeiros dígitos de CODMUNRES), nomeando este novo banco de dados como dados_sinisa_1
 
