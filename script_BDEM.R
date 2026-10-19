@@ -914,6 +914,17 @@ head(dados_sinisa_1)
 
 # Ao terminar a Tarefa 3 commit com a mensagem "script BDEM - SINISA - tarefas 1 a 3" e envie para o repositório Projeto_BDEM_2016
 
+SINISA_RR <- data.frame(
+  ANO = 2016,
+  NIVEL = "MUNICIPIO",
+  CODMUNRES = dados_sinisa_1$CODMUNRES,
+  POPR_RA = dados_sinisa_1$POPR_RA,
+  POPR_RE = dados_sinisa_1$POPR_RE
+)
+
+dim(SINISA_RR)
+
+
 
 # Tarefa 4. Exportar o banco de dados com o nome SINISA_UF.csv (Exemplo: SINISA_RJ.csv)
 # Ao terminar a Tarefa 4 commit com o comentário "dados SINISA_UF 2016 e script - SINISA - tarefas 1 a 4"  e enviar para o repositório Projeto_BDEM_2016
