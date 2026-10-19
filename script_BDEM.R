@@ -903,6 +903,12 @@ head(dados_sinisa)
 
 # Ao terminar a Tarefa 2 commit com a mensagem "script BDEM - SINISA - tarefas 1 a 2" e envie para o repositório Projeto_BDEM_2016
 
+dados_sinisa_1 <- dados_sinisa[substr(as.character(dados_sinisa$CODMUNRES), 1, 2) == "14", ]
+
+
+dim(dados_sinisa_1)
+unique(dados_sinisa_1$Estado)
+head(dados_sinisa_1)
 
 # Tarefa 3. Criar um banco de dados, de nome SINISA_UF.csv (Exemplo: SINISA_RJ.csv), contendo as variáveis listadas no arquivo “Variáveis - Projeto - Tarefa 3 - SINISA.pdf”
 
