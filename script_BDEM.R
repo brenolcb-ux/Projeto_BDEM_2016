@@ -1043,3 +1043,5 @@ BDEM_RR$TMI <- round(((BDEM_RR$TO_NT + BDEM_RR$TO_PNT) / BDEM_RR$TN) * 1000, 2)
 
 # Tarefa 3: Exportar o banco de dados com o nome BDEM_UF.csv (Exemplo: BDEM_RJ.csv)
 # Ao terminar a Tarefa 3 commit com o comentário "dados BDEM_UF 2016 e script - BDEM - tarefas 1 a 3"  e enviar para o repositório Projeto_BDEM_2016
+
+write.csv(BDEM_RR, "BDEM_RR.csv", row.names = FALSE, fileEncoding = "UTF-8")
