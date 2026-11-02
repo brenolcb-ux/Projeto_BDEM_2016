@@ -947,6 +947,64 @@ write.csv(SINISA_RR, "SINISA_RR.csv", row.names = FALSE, fileEncoding = "UTF-8")
 
 
 # Ao terminar a Tarefa 1 commit com a mensagem "script BDEM - BDEM - tarefa 1" e envie para o repositório Projeto_BDEM_2016
+sidra_rr <- read.csv("SIDRA_RR.csv", stringsAsFactors = FALSE)
+atlas_rr <- read.csv("ATLAS_RR.csv", stringsAsFactors = FALSE)
+sinasc_rr <- read.csv("SINASC_RR.csv", stringsAsFactors = FALSE)
+sim_rr <- read.csv("SIM_RR.csv", stringsAsFactors = FALSE)
+sinisa_rr <- read.csv("SINISA_RR.csv", stringsAsFactors = FALSE)
+
+
+sidra_rr$CODMUNRES <- ifelse(
+  nchar(as.character(sidra_rr$CODMUNRES)) == 2,
+  sidra_rr$CODMUNRES * 10000,
+  floor(sidra_rr$CODMUNRES / 10)
+)
+
+atlas_rr$CODMUNRES <- ifelse(
+  nchar(as.character(atlas_rr$CODMUNRES)) == 2,
+  atlas_rr$CODMUNRES * 10000,
+  floor(atlas_rr$CODMUNRES / 10)
+)
+
+sidra_rr$CODMUNRES <- as.integer(sidra_rr$CODMUNRES)
+atlas_rr$CODMUNRES <- as.integer(atlas_rr$CODMUNRES)
+
+
+BDEM_RR <- merge(
+  sidra_rr,
+  atlas_rr,
+  by = c("ANO", "NIVEL", "CODMUNRES"),
+  all = TRUE
+)
+
+BDEM_RR <- merge(
+  BDEM_RR,
+  sinasc_rr,
+  by = c("ANO", "NIVEL", "CODMUNRES"),
+  all = TRUE
+)
+
+BDEM_RR <- merge(
+  BDEM_RR,
+  sim_rr,
+  by = c("ANO", "NIVEL", "CODMUNRES"),
+  all = TRUE
+)
+
+BDEM_RR <- merge(
+  BDEM_RR,
+  sinisa_rr,
+  by = c("ANO", "NIVEL", "CODMUNRES"),
+  all = TRUE
+)
+
+
+BDEM_RR <- BDEM_RR[
+  order(BDEM_RR$NIVEL != "UF", BDEM_RR$CODMUNRES),
+]
+
+rownames(BDEM_RR) <- NULL
+
 
 
 # Tarefa 2: Inserir os seguintes indicadores epidemiológicos (com apenas dias casas decimais) no BDEM_UF:
