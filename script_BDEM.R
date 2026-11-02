@@ -1022,6 +1022,24 @@ rownames(BDEM_RR) <- NULL
 
 # Ao terminar a Tarefa 2 commit com a mensagem "script BDEM - BDEM - tarefas 1 a 2" e envie para o repositório Projeto_BDEM_2016
 
+BDEM_RR$TFG <- round((BDEM_RR$TN / BDEM_RR$POPRC_F_15_49) * 1000, 2)
+
+BDEM_RR$TMG <- round((BDEM_RR$TO / BDEM_RR$POPRE_T) * 1000, 2)
+
+BDEM_RR$RMM <- round((BDEM_RR$TO_MT_P / BDEM_RR$TN) * 100000, 2)
+
+BDEM_RR$TMM <- round((BDEM_RR$TO_MT / BDEM_RR$POPRC_F_15_49) * 100000, 2)
+
+BDEM_RR$TMM_P <- round((BDEM_RR$TO_MT_P_I / BDEM_RR$POPRC_F_15_49) * 100000, 2)
+
+BDEM_RR$TMN <- round((BDEM_RR$TO_NT / BDEM_RR$TN) * 1000, 2)
+
+BDEM_RR$TMN_P <- round((BDEM_RR$TO_NT_P / BDEM_RR$TN) * 1000, 2)
+
+BDEM_RR$TMN_T <- round((BDEM_RR$TO_NT_T / BDEM_RR$TN) * 1000, 2)
+
+BDEM_RR$TMI <- round(((BDEM_RR$TO_NT + BDEM_RR$TO_PNT) / BDEM_RR$TN) * 1000, 2)
+
 
 # Tarefa 3: Exportar o banco de dados com o nome BDEM_UF.csv (Exemplo: BDEM_RJ.csv)
 # Ao terminar a Tarefa 3 commit com o comentário "dados BDEM_UF 2016 e script - BDEM - tarefas 1 a 3"  e enviar para o repositório Projeto_BDEM_2016
